@@ -1,41 +1,44 @@
 class MinStack {
 public:
-    stack<pair<int , int>> s;
+    stack<long long> s;
+    long long minVal;
 
     MinStack() {
-        
+
     }
-    
+
     void push(int value) {
-        if(s.empty()){
-            s.push({value,value});
-        }else{
-            int minValue = min(value , s.top().second);
-            s.push({value, minValue});
+        if (s.empty()) {
+            s.push(value);
+            minVal = value;
         }
-        
+        else if (value >= minVal) {
+            s.push(value);
+        }
+        else {
+            s.push(2LL * value - minVal);
+            minVal = value;
+        }
     }
-    
+
     void pop() {
+        if (s.empty()) return;
+
+        if (s.top() < minVal) {
+            minVal = 2 * minVal - s.top();
+        }
+
         s.pop();
-        
     }
-    
+
     int top() {
-        return s.top().first;
+        if (s.top() < minVal)
+            return minVal;
+
+        return s.top();
     }
-    
+
     int getMin() {
-        return s.top().second;
-        
+        return minVal;
     }
 };
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(value);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
- */
