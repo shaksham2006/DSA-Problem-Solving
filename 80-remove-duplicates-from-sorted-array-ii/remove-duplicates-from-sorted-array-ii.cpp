@@ -2,21 +2,19 @@ class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
 
-        unordered_map<int,int> freq;
+        if(nums.size() <= 2)
+            return nums.size();
 
-        for(int i=0;i<nums.size();i++){
+        int k = 2;
 
-            int x = nums[i];      // Save value
+        for(int i = 2; i < nums.size(); i++) {
 
-            freq[x]++;
-
-            if(freq[x] > 2){
-                nums.erase(nums.begin()+i);
-                freq[x]--;        // Use saved value
-                i--;
+            if(nums[i] != nums[k - 2]) {
+                nums[k] = nums[i];
+                k++;
             }
         }
 
-        return nums.size();
+        return k;
     }
 };
