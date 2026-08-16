@@ -3,30 +3,30 @@ public:
     vector<int> zigzagTraversal(vector<vector<int>>& grid) {
 
         vector<int> ans;
-        int count = 0;
 
-        for (int i = 0; i < grid.size(); i++) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        for (int i = 0; i < n; i++) {
 
             if (i % 2 == 0) {
 
-                // left → right
-                for (int j = 0; j < grid[0].size(); j++) {
+                for (int j = 0; j < m; j++) {
+                    int pos = i * m + j;
 
-                    if (count % 2 == 0)
+                    if (pos % 2 == 0) {
                         ans.push_back(grid[i][j]);
-
-                    count++;
+                    }
                 }
 
             } else {
 
-                // right → left
-                for (int j = grid[0].size() - 1; j >= 0; j--) {
+                for (int j = m - 1; j >= 0; j--) {
+                    int pos = i * m + (m - 1 - j);
 
-                    if (count % 2 == 0)
+                    if (pos % 2 == 0) {
                         ans.push_back(grid[i][j]);
-
-                    count++;
+                    }
                 }
             }
         }
