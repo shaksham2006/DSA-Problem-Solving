@@ -1,36 +1,32 @@
 class Solution {
 public:
     int maxNumberOfFamilies(int n, vector<vector<int>>& reservedSeats) {
-        unordered_map<int,vector<int>> reserved;
+
+        unordered_map<int,int> rows;
+
         for(auto seat:reservedSeats){
-            reserved[seat[0]].push_back(seat[1]);
+            if(seat[1]>=2 && seat[1]<=9)
+                rows[seat[0]] |= 1<<(seat[1]-2);
         }
-        int ans=(n-reserved.size())*2;//since empty rows can hold 2 combination of seats
-        for(auto row:reserved){
-            vector<int> seats=row.second;
-            bool flag=false;
-            if(find(seats.begin(),seats.end(),2)==seats.end() &&
-               find(seats.begin(),seats.end(),3)==seats.end() &&
-               find(seats.begin(),seats.end(),4)==seats.end() &&
-               find(seats.begin(),seats.end(),5)==seats.end()){
+
+        int ans=(n-rows.size())*2;
+
+        int left=15;
+        int middle=60;
+        int right=240;
+
+        for(auto row:rows){
+
+            int mask=row.second;
+            bool l=(mask&left)==0;
+            bool r=(mask&right)==0;
+
+            if(l && r)
+                ans+=2;
+            else if(l || r)
                 ans++;
-                flag=true;
-            }
-            if(find(seats.begin(),seats.end(),6)==seats.end() &&
-               find(seats.begin(),seats.end(),7)==seats.end() &&
-               find(seats.begin(),seats.end(),8)==seats.end() &&
-               find(seats.begin(),seats.end(),9)==seats.end()){
+            else if((mask&middle)==0)
                 ans++;
-                flag=true;
-            }
-            if(!flag){
-                if(find(seats.begin(),seats.end(),4)==seats.end() &&
-                   find(seats.begin(),seats.end(),5)==seats.end() &&
-                   find(seats.begin(),seats.end(),6)==seats.end() &&
-                   find(seats.begin(),seats.end(),7)==seats.end()){
-                    ans++;
-                }
-            }
         }
 
         return ans;
