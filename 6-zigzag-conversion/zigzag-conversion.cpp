@@ -2,30 +2,32 @@ class Solution {
 public:
     string convert(string s,int numRows) {
         int n=s.size();
+
         if(numRows==1 || numRows>=n) return s;
-        int col=n;
-        vector<vector<char>>box(numRows,vector<char>(col,' '));
-        int idx=0;
-        for(int j=0;j<col;j++){
-            for(int i=0;i<numRows;i++){
-                if(idx!=n && j%(numRows-1)==0){
-                    box[i][j]=s[idx];
-                    idx++;
-                }
-                if(idx!=n && j%(numRows-1)!=0 &&
-                   (i+j)%(numRows-1)==0){
-                    box[i][j]=s[idx];
-                    idx++;
-                }
-            }
+
+        vector<string>rows(numRows);
+
+        int row=0;
+        int direction=1;
+
+        for(char c:s){
+            rows[row]+=c;
+
+            if(row==0)
+                direction=1;
+
+            if(row==numRows-1)
+                direction=-1;
+
+            row+=direction;
         }
+
         string ans="";
-        for(int i=0;i<numRows;i++){
-            for(int j=0;j<col;j++){
-                if(box[i][j]==' ') continue;
-                ans+=box[i][j];
-            }
-        }
+
+        for(string x:rows)
+            ans+=x;
+
         return ans;
     }
 };
+// Don't store WHERE the character is in a matrix; just store WHICH ROW it belongs to.
