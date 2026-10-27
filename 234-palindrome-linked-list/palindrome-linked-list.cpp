@@ -8,49 +8,25 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
 public:
-    // Function to reverse a linked list
-    ListNode* reverse(ListNode* head) {
-        ListNode* prev = nullptr;
-        while (head) {
-            ListNode* nextNode = head->next;
-            head->next = prev;
-            prev = head;
-            head = nextNode;
-        }
-        return prev;
-    }
-
     bool isPalindrome(ListNode* head) {
-        if (head == nullptr || head->next == nullptr)
-            return true;
-
-        // Step 1: Find the middle
-        ListNode* slow = head;
-        ListNode* fast = head;
-
-        while (fast->next && fast->next->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-
-        // Step 2: Reverse second half
-        ListNode* secondHalf = reverse(slow->next);
-
-        // Step 3: Compare both halves
-        ListNode* firstHalf = head;
-        ListNode* temp = secondHalf;
-
-        while (temp) {
-            if (firstHalf->val != temp->val)
-                return false;
-
-            firstHalf = firstHalf->next;
+        vector<int>arr;
+        ListNode* temp = head;
+        while(temp!=NULL){
+            arr.push_back(temp->val);
             temp = temp->next;
         }
-
-        return true;
+        int left = 0;
+        int right = arr.size() - 1;
+        bool pallindromic = true;
+        while(left<right){
+            if(arr[left]!=arr[right]){
+                pallindromic = false;
+            }
+            left++;
+            right--;
+        }
+        return pallindromic;
     }
 };
